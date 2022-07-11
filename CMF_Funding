@@ -5,6 +5,7 @@ Dim Count As Integer
 Dim Column As Integer
 Dim Element As Selenium.WebElement
 Dim Elements As Selenium.WebElements
+Dim ClassElements As Selenium.WebElements
 
 Sub Scrape()
 
@@ -26,6 +27,34 @@ Sub Scrape()
     Column = Column + 1
     Set Elements = ch.FindElementsByCss("span.sub-title")
     Call ElementScrape(Elements, Count, Column)
+    
+
+    'Set ClassElements = ch.FindElementsByCss(".d-grid.grid-cols-3")
+    Set ClassElements = ch.FindElementsByXPath("//div[@class='inner pb-3']")
+    
+    ' accordion-content collapse
+    ' //*[@id="project_search_results"]/div/div/div[2]/div[2]/div/article[2]/button
+    
+    'Debug.Print ClassElements.Text
+    
+    For Each Element In ClassElements
+        Count = Count + 1
+        Dim S As String
+        S = Element.Text
+        Debug.Print S
+        If Len(S) < 50 Then
+            Debug.Print Element.Text
+        End If
+    Next Element
+    
+    '//*[@id="rev-inc190648-accordion"]/div/div/div[1]/text()
+    '//*[@id="tragic-kingdom-the200462-accordion"]/div/div/div[1]/text()
+    '//*[@id="not-a-farm-game-mmovr-mobile200469-accordion"]/div/div/div[1]/text()
+    
+    ' //*[@id="rev-inc190648-accordion"]
+    ' /html/body/div[1]/main/section[4]/div/div/div[2]/div[2]/div/article[1]/div
+    ' /html/body/div[1]/main/section[4]/div/div/div[2]/div[2]/div/article[2]/div
+    
     
     
 End Sub
