@@ -1,0 +1,38 @@
+Option Explicit
+
+Private ch As New Selenium.ChromeDriver
+Dim Count As Integer
+Dim Column As Integer
+Dim Element As Selenium.WebElement
+Dim Elements As Selenium.WebElements
+
+Sub Scrape()
+
+    Set ch = New Selenium.ChromeDriver
+    ch.Start
+    ch.Get "https://cmf-fmc.ca/funded-projects/?_platform=dm&_project_content_type=game&_funding_streams=experimental&_project_region=alberta&_per_page=100"
+
+    Count = 0
+    Column = 1
+    Set Elements = ch.FindElementsByCss("span.h4.mb-0.toggle-header")
+    Call ElementScrape(Elements, Count, Column)
+
+    Count = 0
+    Column = Column + 1
+    Set Elements = ch.FindElementsByCss("span.pills")
+    Call ElementScrape(Elements, Count, Column)
+    
+    Count = 0
+    Column = Column + 1
+    Set Elements = ch.FindElementsByCss("span.sub-title")
+    Call ElementScrape(Elements, Count, Column)
+    
+    
+End Sub
+
+Sub ElementScrape(Elements As Selenium.WebElements, Count As Integer, Column As Integer)
+    For Each Element In Elements
+        Count = Count + 1
+        Worksheets("CMF").Cells(Count, Column).Value = Element.Text
+    Next Element
+End Sub
